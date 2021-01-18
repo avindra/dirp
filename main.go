@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"strings"
 
 	dir "github.com/avindra/dir/src"
 )
@@ -20,13 +18,8 @@ func main() {
 	case 1:
 		arg0 := args[0]
 		if dir.IsDir(arg0) {
-			routine := "find " + arg0 + " -maxdepth 1 -type d"
-			target, err := dir.ExecWired(strings.NewReader(""), routine)
-			if err != nil {
-				fmt.Println("tgt", target, routine)
-			} else {
-				fmt.Print("tgterr", err)
-			}
+			cfg := dir.FindDirs(arg0)
+			dir.Selector(cfg)
 		} else if arg0 == "hook" {
 			dir.PrintHook()
 		}

@@ -10,9 +10,6 @@ func PrintHook() {
 		if [ "$argv[1]" = "cfg" ]
 			$EDITOR "$HOME/.config/dir/list"
 			return $status
-		else if test -d "$argv[1]"
-			# driller feature
-			set selection (find "$argv[1]" -maxdepth 1 -type d | $prog)
 		else
 			# default
 			set selection ($prog)

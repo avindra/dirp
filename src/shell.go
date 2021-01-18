@@ -16,11 +16,33 @@ func IsDir(path string) bool {
 	return fileInfo.IsDir()
 }
 
+// execFindDir at the given path
+func execFindDir(path string) string {
+	routine := []string{"find", path, "-maxdepth", "1", "-type", "d"}
+	result, err := ExecWired(strings.NewReader(""), routine)
+	if err != nil {
+		return ""
+	}
+
+	return result
+}
+
+// FindDirs at path
+func FindDirs(path string) ConfigSelection {
+	dirs := strings.Split(execFindDir(path), "\n")
+	cfg := make(ConfigSelection, len(dirs))
+	for k := range dirs {
+		D := dirs[k]
+		cfg[D] = D
+	}
+	return cfg
+}
+
 // ExecWired runs a command, passes through data and returns stdout to caller
 // src: https://github.com/junegunn/fzf/issues/1270#issuecomment-504000372
-func ExecWired(data io.Reader, phrase string) (string, error) {
+func ExecWired(data io.Reader, command []string) (string, error) {
 	var result strings.Builder
-	cmd := exec.Command(phrase)
+	cmd := exec.Command(command[0], command[1:]...)
 	cmd.Stdout = &result
 	cmd.Stderr = os.Stderr
 	stdin, err := cmd.StdinPipe()
@@ -53,5 +75,5 @@ func ExecWired(data io.Reader, phrase string) (string, error) {
 // ref: https://github.com/junegunn/fzf/issues/2097#issuecomment-650682010
 // src: https://github.com/junegunn/fzf/issues/1270#issuecomment-504000372
 func Fuzz(data io.Reader) (string, error) {
-	return ExecWired(data, "fzf")
+	return ExecWired(data, []string{"fzf"})
 }
