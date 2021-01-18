@@ -2,6 +2,7 @@ package dir
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -30,5 +31,17 @@ func Feeder() {
 
 	if err := scanner.Err(); err != nil {
 		log.Println(err)
+	}
+
+	// config is now ready
+	names := make([]string, 0, len(config))
+	for k := range config {
+		names = append(names, k)
+	}
+
+	result, err := Fuzz(strings.NewReader(strings.Join(names, "\n")))
+	if err == nil && len(result) > 0 {
+		choice := config[result]
+		fmt.Print(choice)
 	}
 }
