@@ -1,18 +1,29 @@
-package dir
+package dirp
 
 import "fmt"
 
-// PrintHook emits shell code to wire up functionality
+// PrintBashHook emits shell code for Bash, ZSH, sh, etc
+func PrintBashHook() {
+	fmt.Println(`function dir() {
+		dir=$(dirp)
+		if [[ -n $dir ]]; then
+			echo "Switching to $dir... "
+			pushd "$dir"
+		fi
+	}
+	
+	export -f dir`)
+}
+
+// PrintHook emits shell code for Fish
 func PrintHook() {
 	fmt.Println(`function dir
-		set prog "$HOME/bin/lib/dir"
-	
 		if [ "$argv[1]" = "cfg" ]
 			$EDITOR "$HOME/.config/dir/list"
 			return $status
 		else
 			# default
-			set selection ($prog)
+			set selection (dirp)
 		end
 	
 		if [ "x$selection" = "x" ]

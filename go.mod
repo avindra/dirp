@@ -1,4 +1,4 @@
-module github.com/avindra/dir
+module github.com/avindra/dirp
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

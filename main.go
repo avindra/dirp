@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	dir "github.com/avindra/dir/src"
+	dirp "github.com/avindra/dirp/src"
 )
 
 func main() {
@@ -15,17 +15,22 @@ func main() {
 	}
 
 	switch len(args) {
+	case 2:
 	case 1:
 		arg0 := args[0]
-		if dir.IsDir(arg0) {
-			cfg := dir.FindDirs(arg0)
-			dir.Selector(cfg)
+		if dirp.IsDir(arg0) {
+			cfg := dirp.FindDirs(arg0)
+			dirp.Selector(cfg)
 		} else if arg0 == "hook" {
-			dir.PrintHook()
+			if len(args) == 2 && args[1] == "bash" {
+				dirp.PrintBashHook()
+			} else {
+				dirp.PrintHook() // fish
+			}
 		}
 	default:
-		if dir.InputHasData() {
-			dir.Feeder()
+		if dirp.InputHasData() {
+			dirp.Feeder()
 			return
 		}
 	}
