@@ -4,8 +4,15 @@ import "fmt"
 
 // PrintBashHook emits shell code for Bash, ZSH, sh, etc
 func PrintBashHook() {
-	fmt.Println(`function dir() {
-		dir=$(dirp)
+	// the first part removes existing "dir" aliases, if any
+	fmt.Println(`
+alias dir &> /dev/null
+if [[ $? -eq 0 ]]; then
+	unalias dir
+fi
+
+function dir() {
+		dir=$(dirp $@)
 		if [[ -n $dir ]]; then
 			echo "Switching to $dir... "
 			pushd "$dir"
@@ -23,7 +30,7 @@ func PrintHook() {
 			return $status
 		else
 			# default
-			set selection (dirp)
+			set selection (dirp $argv)
 		end
 	
 		if [ "x$selection" = "x" ]
