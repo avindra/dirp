@@ -3,6 +3,7 @@ package dirp
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -12,10 +13,20 @@ import (
 // of dirs to select from
 type ConfigSelection map[string]string
 
-// Feeder starts reading from stdin
-// and enters selection mode
-func Feeder() {
-	scanner := bufio.NewScanner(os.Stdin)
+// GetConfigPath loads the default config
+// from the expected location
+func GetConfigPath() string {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "/dev/null"
+	}
+
+	return home + "/.config/dir/list"
+}
+
+// ReadConfig creates the config map from a file
+func ReadConfig(r io.Reader) ConfigSelection {
+	scanner := bufio.NewScanner(r)
 
 	config := make(ConfigSelection)
 
@@ -37,6 +48,7 @@ func Feeder() {
 		log.Println(err)
 	}
 
+	return config
 }
 
 // Selector issues a picker provided a config
