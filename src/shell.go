@@ -19,7 +19,7 @@ func IsDir(path string) bool {
 // execFindDir at the given path
 func execFindDir(path string) string {
 	routine := []string{"find", path, "-maxdepth", "1", "-type", "d"}
-	result, err := ExecWired(strings.NewReader(""), routine)
+	result, err := execWith(strings.NewReader(""), routine)
 	if err != nil {
 		return ""
 	}
@@ -38,9 +38,9 @@ func FindDirs(path string) ConfigSelection {
 	return cfg
 }
 
-// ExecWired runs a command, passes through data and returns stdout to caller
+// execWith runs a command, passes through data and returns stdout to caller
 // src: https://github.com/junegunn/fzf/issues/1270#issuecomment-504000372
-func ExecWired(data io.Reader, command []string) (string, error) {
+func execWith(data io.Reader, command []string) (string, error) {
 	var result strings.Builder
 	cmd := exec.Command(command[0], command[1:]...)
 	cmd.Stdout = &result
@@ -75,5 +75,5 @@ func ExecWired(data io.Reader, command []string) (string, error) {
 // ref: https://github.com/junegunn/fzf/issues/2097#issuecomment-650682010
 // src: https://github.com/junegunn/fzf/issues/1270#issuecomment-504000372
 func Fuzz(data io.Reader) (string, error) {
-	return ExecWired(data, []string{"fzf"})
+	return execWith(data, []string{"fzf"})
 }
