@@ -12,16 +12,16 @@ if [[ $? -eq 0 ]]; then
 fi
 
 function dir() {
-		response=$(dirp $@)
+		stdout=$(dirp $@)
 		status=$?
-		if [[ -n $response ]]; then
+		if [[ -n $stdout ]]; then
 			if [[ $status -eq 2 ]]; then
-				$EDITOR "$response"
+				$EDITOR "$stdout"
 				return $?
 			fi
 
-			echo "Switching to $response... "
-			pushd "$response"
+			echo "Switching to $stdout... "
+			pushd "$stdout"
 		fi
 	}
 	
@@ -31,19 +31,19 @@ function dir() {
 // PrintHook emits shell code for Fish
 func PrintHook() {
 	fmt.Println(`function dir
-		set response (dirp $argv)
+		set stdout (dirp $argv)
 		if [ $status = 2 ]
-			$EDITOR "$response"
+			$EDITOR "$stdout"
 			return $status
 		end
 	
-		if [ "x$response" = "x" ]
+		if [ "x$stdout" = "x" ]
 			echo -n "How are we doing @ "
 			uptime
 			return $status
 		end
 	
-		echo "Switching to $response"
-		pushd "$selection"
+		echo "Switching to $stdout"
+		pushd "$stdout"
 	end`)
 }
