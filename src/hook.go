@@ -12,10 +12,16 @@ if [[ $? -eq 0 ]]; then
 fi
 
 function dir() {
-		dir=$(dirp $@)
-		if [[ -n $dir ]]; then
-			echo "Switching to $dir... "
-			pushd "$dir"
+		response=$(dirp $@)
+		status=$?
+		if [[ -n $response ]]; then
+			if [[ $status -eq 2 ]]; then
+				$EDITOR "$response"
+				return $?
+			fi
+
+			echo "Switching to $response... "
+			pushd "$response"
 		fi
 	}
 	
@@ -25,21 +31,19 @@ function dir() {
 // PrintHook emits shell code for Fish
 func PrintHook() {
 	fmt.Println(`function dir
-		if [ "$argv[1]" = "cfg" ]
-			$EDITOR "$HOME/.config/dir/list"
+		set response (dirp $argv)
+		if [ $status = 2 ]
+			$EDITOR "$response"
 			return $status
-		else
-			# default
-			set selection (dirp $argv)
 		end
 	
-		if [ "x$selection" = "x" ]
+		if [ "x$response" = "x" ]
 			echo -n "How are we doing @ "
 			uptime
 			return $status
 		end
 	
-		echo "Switching to $selection"
+		echo "Switching to $response"
 		pushd "$selection"
 	end`)
 }

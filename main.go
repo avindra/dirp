@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	dirp "github.com/avindra/dirp/src"
@@ -29,6 +30,9 @@ func main() {
 			} else {
 				dirp.PrintHook() // fish
 			}
+		} else if arg0 == "cfg" {
+			fmt.Print(dirp.GetConfigPath())
+			os.Exit(2)
 		}
 		return
 	}
