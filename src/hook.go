@@ -2,14 +2,20 @@ package dirp
 
 import "fmt"
 
-// PrintBashHook emits shell code for Bash, ZSH, sh, etc
+// PrintBashHook emits shell code for Bash, ZSH, sh, BusyBox, etc
 func PrintBashHook() {
-	// the first part removes existing "dir" aliases, if any
+	// 1) Remove existing "dir" aliases, if any exit
+	// 2) Detect and prefer pushd over cd
+	// 3) Provide "dir" function
+	// 4) export dir function for Bash users
 	fmt.Println(`
 alias dir &> /dev/null
 if [[ $? -eq 0 ]]; then
 	unalias dir
 fi
+
+_DIRP_CD=cd
+type pushd &> /dev/null && _DIRP_CD=pushd
 
 function dir() {
 		stdout=$(dirp $@)
@@ -21,11 +27,12 @@ function dir() {
 			fi
 
 			echo "Switching to $stdout... "
-			pushd "$stdout"
+			$_DIRP_CD "$stdout"
 		fi
 	}
 	
-	export -f dir`)
+	export -f dir &> /dev/null
+`)
 }
 
 // PrintHook emits shell code for Fish
