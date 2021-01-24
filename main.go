@@ -25,10 +25,10 @@ func main() {
 			cfg := dirp.FindDirs(arg0)
 			dirp.Selector(cfg)
 		} else if arg0 == "hook" {
-			if len(args) >= 2 && args[1] == "bash" {
-				dirp.PrintBashHook()
+			if len(args) >= 2 && args[1] == "fish" {
+				dirp.PrintFishHook()
 			} else {
-				dirp.PrintHook() // fish
+				dirp.PrintHook()
 			}
 		} else if arg0 == "cfg" {
 			fmt.Print(dirp.GetConfigPath())

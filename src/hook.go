@@ -2,8 +2,8 @@ package dirp
 
 import "fmt"
 
-// PrintBashHook emits shell code for Bash, ZSH, sh, BusyBox, etc
-func PrintBashHook() {
+// PrintHook emits shell code for Bash, ZSH, sh, BusyBox, etc
+func PrintHook() {
 	// 1) Remove existing "dir" aliases, if any exit
 	// 2) Detect and prefer pushd over cd
 	// 3) Provide "dir" function
@@ -34,8 +34,8 @@ function dir() {
 	export -f dir &> /dev/null`)
 }
 
-// PrintHook emits shell code for Fish
-func PrintHook() {
+// PrintFishHook emits shell code for Fish
+func PrintFishHook() {
 	fmt.Println(`function dir
 		set stdout (dirp $argv)
 		if [ $status = 2 ]
