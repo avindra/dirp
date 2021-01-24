@@ -31,8 +31,7 @@ function dir() {
 		fi
 	}
 	
-	export -f dir &> /dev/null
-`)
+	export -f dir &> /dev/null`)
 }
 
 // PrintHook emits shell code for Fish
