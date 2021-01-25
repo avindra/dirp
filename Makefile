@@ -1,8 +1,7 @@
+# Uses for this Makefile: CI/CD and local development
+
 build:
 	@go build -ldflags "-s -w" .
-
-run:
-	@go run .
 
 test:
 	@go test ./...
