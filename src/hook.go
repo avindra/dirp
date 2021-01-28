@@ -11,6 +11,9 @@ func PrintHook() {
 	// 2) Detect and prefer pushd over cd
 	// 3) Provide "dir" function
 	// 4) export dir function for Bash users
+
+	// important: do not use $status as a variable
+	// because it's a readonly reserved special var in ZSH
 	fmt.Println(`
 alias dir &> /dev/null
 if [[ $? -eq 0 ]]; then
@@ -22,9 +25,9 @@ type pushd &> /dev/null && _DIRP_CD=pushd
 
 function dir() {
 		stdout=$(dirp $@)
-		status=$?
+		stat=$?
 		if [[ -n $stdout ]]; then
-			if [[ $status -eq 2 ]]; then
+			if [[ $stat -eq 2 ]]; then
 				$EDITOR "$stdout"
 				return $?
 			fi
