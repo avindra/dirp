@@ -10,5 +10,5 @@ jobs:
     - uses: actions/setup-go@v2
     - run: |
         go version
-        make test
-        make build
+        go test -v ./...
+        go build
