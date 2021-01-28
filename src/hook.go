@@ -15,19 +15,16 @@ func PrintHook() {
 	// important: do not use $status as a variable
 	// because it's a readonly reserved special var in ZSH
 	fmt.Println(`
-alias dir &> /dev/null
-if [[ $? -eq 0 ]]; then
-	unalias dir
-fi
+unalias dir >/dev/null 2>&1
 
 _DIRP_CD=cd
-type pushd &> /dev/null && _DIRP_CD=pushd
+type pushd >/dev/null 2>&1 && _DIRP_CD=pushd
 
-function dir() {
+dir () {
 		stdout=$(dirp $@)
 		stat=$?
-		if [[ -n $stdout ]]; then
-			if [[ $stat -eq 2 ]]; then
+		if [ -n $stdout ]; then
+			if [ $stat -eq 2 ]; then
 				$EDITOR "$stdout"
 				return $?
 			fi
@@ -37,7 +34,7 @@ function dir() {
 		fi
 	}
 	
-	export -f dir &> /dev/null`)
+	export -f dir >/dev/null 2>&1`)
 }
 
 // PrintFishHook emits shell code for Fish
