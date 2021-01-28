@@ -1,6 +1,9 @@
 package dirp
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // PrintHook emits shell code for Bash, ZSH, sh, BusyBox, etc
 func PrintHook() {
@@ -52,4 +55,26 @@ func PrintFishHook() {
 		echo "Switching to $stdout"
 		pushd "$stdout"
 	end`)
+}
+
+// PrintRcHook emits code for rc, the plan 9 shell
+func PrintRcHook() {
+	src := `fn dir {
+		stdout=` + "`" + `{dirp $*};
+		if (~ $bqstatus 2 ) {
+			$EDITOR $stdout;
+			return $status;
+		};
+	
+		if (~ "x$stdout" "x" ) {
+			echo -n How are we doing @;
+			uptime;
+			return $status;
+		};
+	
+		echo Switching to $stdout;
+		cd $stdout
+	}`
+
+	fmt.Println(strings.ReplaceAll(src, "\t", "  "))
 }

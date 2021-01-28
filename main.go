@@ -25,8 +25,15 @@ func main() {
 			cfg := dirp.FindDirs(arg0)
 			dirp.Selector(cfg)
 		} else if arg0 == "hook" {
-			if len(args) >= 2 && args[1] == "fish" {
-				dirp.PrintFishHook()
+			if len(args) >= 2 {
+				switch args[1] {
+				case "fish":
+					dirp.PrintFishHook()
+				case "rc":
+					dirp.PrintRcHook()
+				default:
+					panic("I don't know about " + args[1])
+				}
 			} else {
 				dirp.PrintHook()
 			}
