@@ -78,3 +78,23 @@ func PrintRcHook() {
 
 	fmt.Println(strings.ReplaceAll(src, "\t", "  "))
 }
+
+// PrintEsHook emits code for es, a shell based on rc
+func PrintEsHook() {
+	fmt.Println(`fn dir {
+	stdout=` + "`" + `{dirp $*};
+	if {~ $bqstatus 2 } {
+		$EDITOR $stdout;
+		return $status;
+	};
+	
+	if {~ "x$stdout" "x" } {
+		echo -n "How are we doing @";
+		uptime;
+		return $status;
+	};
+	
+	echo Switching to $stdout; 
+	cd $stdout
+}`)
+}

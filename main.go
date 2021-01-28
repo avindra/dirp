@@ -29,6 +29,8 @@ func main() {
 				switch args[1] {
 				case "fish":
 					dirp.PrintFishHook()
+				case "es":
+					dirp.PrintEsHook()
 				case "rc":
 					dirp.PrintRcHook()
 				default:
