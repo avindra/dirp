@@ -7,6 +7,11 @@ import (
 	dirp "github.com/avindra/dirp/src"
 )
 
+func driller(path string) {
+	cfg := dirp.FindDirs(path)
+	dirp.Selector(cfg)
+}
+
 func main() {
 	args := os.Args
 	args = args[1:]
@@ -22,8 +27,7 @@ func main() {
 
 		arg0 := args[0]
 		if dirp.IsDir(arg0) {
-			cfg := dirp.FindDirs(arg0)
-			dirp.Selector(cfg)
+			driller(arg0)
 		} else if arg0 == "hook" {
 			if len(args) >= 2 {
 				switch args[1] {
@@ -59,5 +63,8 @@ NOARGS:
 
 	if len(cfg) > 0 {
 		dirp.Selector(cfg)
+	} else {
+		// No config detected, default to driller
+		driller(".")
 	}
 }
