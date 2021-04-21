@@ -20,7 +20,7 @@ func GetConfigPath() string {
 		return "/dev/null"
 	}
 
-	return home + "/.config/dir/list"
+	return home + "/.config/dirp/list"
 }
 
 // ReadConfig creates the config map from a file
