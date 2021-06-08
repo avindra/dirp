@@ -17,8 +17,10 @@ func IsDir(path string) bool {
 }
 
 // execFindDir at the given path
+// "-mindepth 1" is used to excl working dir
+// https://superuser.com/a/590470/59068
 func execFindDir(path string) string {
-	routine := []string{"find", path, "-maxdepth", "1", "-type", "d"}
+	routine := []string{"find", path, "-mindepth", "1", "-maxdepth", "1", "-type", "d"}
 	result, err := execWith(strings.NewReader(""), routine)
 	if err != nil {
 		return ""
@@ -72,8 +74,12 @@ func execWith(data io.Reader, command []string) (string, error) {
 }
 
 // Fuzz handles fzf: it does not want to expose itself as library
+//
+// -0 and -1, short for --select-{1,0} are scripting options that
+// automatically selects for {0,1} matches.
+//
 // ref: https://github.com/junegunn/fzf/issues/2097#issuecomment-650682010
 // src: https://github.com/junegunn/fzf/issues/1270#issuecomment-504000372
 func Fuzz(data io.Reader) (string, error) {
-	return execWith(data, []string{"fzf"})
+	return execWith(data, []string{"fzf", "-0", "-1"})
 }
