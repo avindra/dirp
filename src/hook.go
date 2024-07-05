@@ -33,13 +33,20 @@ dir () {
 			$_DIRP_CD "$stdout"
 		fi
 	}
-	
-	export -f dir >/dev/null 2>&1`)
+
+	export -f dir >/dev/null 2>&1
+
+	alias d=dir
+	alias d.="dir ."
+	alias d..="dir .."
+	`)
 }
 
 // PrintFishHook emits shell code for Fish
 func PrintFishHook() {
-	fmt.Println(`function dir
+	fmt.Println(`
+
+	function dir
 		set stdout (dirp $argv)
 		if [ $status = 2 ]
 			$EDITOR "$stdout"
@@ -54,7 +61,13 @@ func PrintFishHook() {
 	
 		echo "Switching to $stdout"
 		pushd "$stdout"
-	end`)
+	end
+
+	abbr -a -g d dir
+	abbr -a -g d. dir .
+	abbr -a -g d.. dir ..
+
+	`)
 }
 
 // PrintRcHook emits code for rc, the plan 9 shell
