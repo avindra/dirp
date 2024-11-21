@@ -34,11 +34,11 @@ dir () {
 		fi
 	}
 
-	export -f dir >/dev/null 2>&1
-
 	alias d=dir
 	alias d.="dir ."
 	alias d..="dir .."
+
+	export -f dir >/dev/null 2>&1
 	`)
 }
 
