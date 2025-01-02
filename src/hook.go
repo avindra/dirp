@@ -7,7 +7,7 @@ import (
 
 // PrintHook emits shell code for Bash, ZSH, sh, BusyBox, etc
 func PrintHook() {
-	// 1) Remove existing "dir" aliases, if any exit
+	// 1) Remove existing "dir" aliases, if any exist
 	// 2) Detect and prefer pushd over cd
 	// 3) Provide "dir" function
 	// 4) export dir function for Bash users
