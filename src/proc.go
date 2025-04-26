@@ -29,15 +29,12 @@ func FindDirs(path string) ConfigSelection {
 	names, _ := dir.Readdirnames(-1)
 	defer dir.Close()
 
-	cfg := make(ConfigSelection, len(names))
-	for k := range names {
-		resolvedPath := filepath.Join(fullPath, names[k])
-		if !IsDir(resolvedPath) {
-			continue
+	cfg := make(ConfigSelection)
+	for _, name := range names {
+		resolvedPath := filepath.Join(fullPath, name)
+		if IsDir(resolvedPath) {
+			cfg[resolvedPath] = resolvedPath
 		}
-
-		D := resolvedPath
-		cfg[D] = D
 	}
 	return cfg
 }
