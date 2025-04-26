@@ -31,3 +31,9 @@ func PrintEsHook() {
 	hook, _ := folder.ReadFile("hooks/hook.es")
 	os.Stdout.Write(hook)
 }
+
+// PrintPwshHook emits code for PowerShell
+func PrintPwshHook() {
+	hook, _ := folder.ReadFile("hooks/hook.pwsh")
+	os.Stdout.Write(hook)
+}

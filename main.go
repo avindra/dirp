@@ -33,6 +33,8 @@ func main() {
 				switch args[1] {
 				case "fish":
 					dirp.PrintFishHook()
+				case "pwsh":
+					dirp.PrintPwshHook()
 				case "es":
 					dirp.PrintEsHook()
 				case "rc":
