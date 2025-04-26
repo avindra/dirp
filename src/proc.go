@@ -31,11 +31,12 @@ func FindDirs(path string) ConfigSelection {
 
 	cfg := make(ConfigSelection, len(names))
 	for k := range names {
-		if !IsDir(filepath.Join(fullPath, names[k])) {
+		resolvedPath := filepath.Join(fullPath, names[k])
+		if !IsDir(resolvedPath) {
 			continue
 		}
 
-		D := names[k]
+		D := resolvedPath
 		cfg[D] = D
 	}
 	return cfg
