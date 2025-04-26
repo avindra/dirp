@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -16,22 +17,21 @@ func IsDir(path string) bool {
 	return fileInfo.IsDir()
 }
 
-// FindDirs at path
+// FindDirs at path. Used by driller
 
 func FindDirs(path string) ConfigSelection {
-	dir, err := os.Open(path)
+	fullPath, _ := filepath.Abs(path)
+	dir, err := os.Open(fullPath)
 	if err != nil {
 		return nil
 	}
 
-	names, err := dir.Readdirnames(-1)
-	if err != nil {
-		return nil
-	}
+	names, _ := dir.Readdirnames(-1)
+	defer dir.Close()
 
 	cfg := make(ConfigSelection, len(names))
 	for k := range names {
-		if !IsDir(names[k]) {
+		if !IsDir(filepath.Join(fullPath, names[k])) {
 			continue
 		}
 
