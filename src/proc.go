@@ -16,25 +16,26 @@ func IsDir(path string) bool {
 	return fileInfo.IsDir()
 }
 
-// execFindDir at the given path
-// "-mindepth 1" is used to excl working dir
-// https://superuser.com/a/590470/59068
-func execFindDir(path string) string {
-	routine := []string{"find", path, "-mindepth", "1", "-maxdepth", "1", "-type", "d"}
-	result, err := execWith(strings.NewReader(""), routine)
+// FindDirs at path
+
+func FindDirs(path string) ConfigSelection {
+	dir, err := os.Open(path)
 	if err != nil {
-		return ""
+		return nil
 	}
 
-	return result
-}
+	names, err := dir.Readdirnames(-1)
+	if err != nil {
+		return nil
+	}
 
-// FindDirs at path
-func FindDirs(path string) ConfigSelection {
-	dirs := strings.Split(execFindDir(path), "\n")
-	cfg := make(ConfigSelection, len(dirs))
-	for k := range dirs {
-		D := dirs[k]
+	cfg := make(ConfigSelection, len(names))
+	for k := range names {
+		if !IsDir(names[k]) {
+			continue
+		}
+
+		D := names[k]
 		cfg[D] = D
 	}
 	return cfg
