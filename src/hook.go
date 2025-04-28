@@ -34,6 +34,6 @@ func PrintEsHook() {
 
 // PrintPwshHook emits code for PowerShell
 func PrintPwshHook() {
-	hook, _ := folder.ReadFile("hooks/hook.pwsh")
+	hook, _ := folder.ReadFile("hooks/hook.ps1")
 	os.Stdout.Write(hook)
 }
