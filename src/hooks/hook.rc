@@ -1,5 +1,5 @@
 fn dir {
-	stdout=` + "`" + `{dirp $*};
+	stdout=`{dirp $*};
 	if (~ $bqstatus 2 ) {
 		$EDITOR $stdout;
 		return $status;
@@ -10,7 +10,7 @@ fn dir {
 		uptime;
 		return $status;
 	};
-	
+
 	echo Switching to $stdout;
-	cd $stdout
+	cd $stdout;
 }

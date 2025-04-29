@@ -1,5 +1,5 @@
 fn dir {
-	stdout=` + "`" + `{dirp $*};
+	stdout=`{dirp $*};
 	if {~ $bqstatus 2 } {
 		$EDITOR $stdout;
 		return $status;
