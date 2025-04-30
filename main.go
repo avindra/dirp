@@ -26,20 +26,9 @@ func main() {
 		driller(arg0)
 	} else if arg0 == "hook" {
 		if len(args) >= 2 {
-			switch args[1] {
-			case "fish":
-				dirp.PrintFishHook()
-			case "pwsh":
-				dirp.PrintPwshHook()
-			case "es":
-				dirp.PrintEsHook()
-			case "rc":
-				dirp.PrintRcHook()
-			default:
-				panic("I don't know about " + args[1])
-			}
+			dirp.PrintShellHook(args[1])
 		} else {
-			dirp.PrintHook()
+			dirp.PrintShellHook("sh")
 		}
 	} else if arg0 == "cfg" {
 		fmt.Print(dirp.GetConfigPath())
