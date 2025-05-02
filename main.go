@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	dirp "github.com/avindra/dirp/src"
@@ -31,7 +30,7 @@ func main() {
 			dirp.PrintShellHook("sh")
 		}
 	} else if arg0 == "cfg" {
-		fmt.Print(dirp.GetConfigPath())
+		os.Stdout.WriteString(dirp.GetConfigPath())
 		os.Exit(2)
 	} else {
 		handleNoArgs()

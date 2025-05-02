@@ -1,7 +1,7 @@
 package dirp
 
 import (
-	"fmt"
+	"os"
 	"strings"
 )
 
@@ -16,6 +16,6 @@ func Selector(config ConfigSelection) {
 	result, err := Fuzz(strings.NewReader(strings.Join(names, "\n")))
 	if err == nil && len(result) > 0 {
 		choice := config[result]
-		fmt.Print(choice)
+		os.Stdout.WriteString(choice)
 	}
 }
