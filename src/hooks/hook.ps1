@@ -12,5 +12,11 @@ function dir {
 
 
 Set-Alias -Name d -Value dir
-#Set-Alias -Name d. -Value dir .
-#Set-Alias -Name d.. -Value dir ..
+
+function d. {
+	dir .
+}
+
+function d.. {
+	dir ..
+}
