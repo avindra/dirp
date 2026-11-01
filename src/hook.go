@@ -15,7 +15,7 @@ func PrintShellHook(shell string) {
 	}
 
 	switch shell {
-	case "fish", "pwsh", "es", "rc", "sh":
+	case "fish", "pwsh", "es", "rc", "sh", "bat":
 		profile := "hook." + ext
 		hook, _ := folder.ReadFile("hooks/" + profile)
 		os.Stdout.Write(hook)
